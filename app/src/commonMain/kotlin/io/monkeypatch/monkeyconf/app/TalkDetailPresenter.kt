@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 interface TalkDetailView : BaseView {
-    fun displayTalk(talk: Talk)
+    fun displayTalk(talk: TalkDetail)
 }
 
 class TalkDetailPresenter(
@@ -23,7 +23,7 @@ class TalkDetailPresenter(
         launch(uiDispatcher) {
             try {
                 val talk = conferenceRepository.getTalk(talkId)
-                talk?.let { talkListView.displayTalk(it) }
+                talk?.let { talkListView.displayTalk(it.toTalkDetail()) }
             } catch (e: Exception) {
                 view.displayError(e)
             }

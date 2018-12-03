@@ -14,5 +14,10 @@ fun Talk.toTalkSummary(): TalkSummary {
     val title = this.title
     val speakersString = speakers.joinToString(", ") { it.fullName() }
     val subtitle = "$speakersString, ${room.name}"
-    return TalkSummary(id, hourString, title, subtitle)
+    return TalkSummary(
+        id,
+        hourString,
+        title,
+        subtitle
+    )
 }
