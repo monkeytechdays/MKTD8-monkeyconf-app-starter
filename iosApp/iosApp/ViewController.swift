@@ -1,7 +1,7 @@
 import UIKit
 import app
 
-class ViewController: UIViewController, TalkListView, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, TalkListView, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     var presenter: TalkListPresenter!
     var talks: [TalkSummary]?
     
@@ -57,6 +57,10 @@ class ViewController: UIViewController, TalkListView, UITableViewDataSource, UIT
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let detailController = segue.destination as! DetailViewController
         detailController.talkId = sender as! String
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        presenter.filterTalks(text: searchText)
     }
 }
 

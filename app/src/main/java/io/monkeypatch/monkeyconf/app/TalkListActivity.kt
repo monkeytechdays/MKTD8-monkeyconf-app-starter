@@ -1,19 +1,22 @@
 package io.monkeypatch.monkeyconf.app
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_talk.view.*
 
 class TalkListActivity : AppCompatActivity(), TalkListView {
-    lateinit var presenter: TalkListPresenter
+    private lateinit var presenter: TalkListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,36 @@ class TalkListActivity : AppCompatActivity(), TalkListView {
             setHasFixedSize(true)
         }
     }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_search, menu)
+        val searchView = menu?.findItem(R.id.action_search)?.actionView as? SearchView
+        searchView?.apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    newText?.let { filterUpdated(it) }
+                    return true
+                }
+            })
+        }
+        return true
+    }
+
+    private fun filterUpdated(text: String) {
+        presenter.filterTalks(text)
+    }
+
+
+    fun View.dismissKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

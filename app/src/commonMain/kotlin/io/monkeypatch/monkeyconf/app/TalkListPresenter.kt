@@ -12,7 +12,8 @@ class TalkListPresenter(
     private val talkListView: TalkListView,
     private val conferenceRepository: ConferenceRepository,
     private val uiDispatcher: CoroutineDispatcher
-) : BasePresenter(talkListView){
+) : BasePresenter(talkListView) {
+    var talks: List<Talk>? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -25,6 +26,7 @@ class TalkListPresenter(
                 talkListView.displayLoading(true)
                 val talks = conferenceRepository.getConference()
                 talkListView.displayTalks(talks.map { it.toTalkSummary() })
+                this@TalkListPresenter.talks = talks
             } catch (e: Exception) {
                 view.displayError(e)
             } finally {
@@ -32,5 +34,10 @@ class TalkListPresenter(
             }
         }
     }
-}
 
+    fun filterTalks(text: String) {
+        talks?.let { t ->
+            talkListView.displayTalks(t.filterTalks(text).map { it.toTalkSummary() })
+        }
+    }
+}
