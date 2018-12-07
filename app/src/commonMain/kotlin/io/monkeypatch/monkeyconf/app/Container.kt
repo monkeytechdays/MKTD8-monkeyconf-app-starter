@@ -9,4 +9,6 @@ object Container {
     private val uiDispatcher: CoroutineDispatcher = CommonDispatcher.ui
 
     private val conferenceRepository = ConferenceRepositoryImpl("https://monkeyconf.herokuapp.com/")
+
+    fun getConferencePresenter(view: TalkListView) = ConferencePresenter(view, conferenceRepository, uiDispatcher)
 }
