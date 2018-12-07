@@ -9,10 +9,10 @@ interface TalkDetailView : BaseView {
 
 class TalkDetailPresenter(
     private val talkId: String,
-    private val talkListView: TalkDetailView,
+    private val talkDetailView: TalkDetailView,
     private val conferenceRepository: ConferenceRepository,
     private val uiDispatcher: CoroutineDispatcher
-) : BasePresenter(talkListView){
+) : BasePresenter(talkDetailView){
 
     override fun onCreate() {
         super.onCreate()
@@ -23,7 +23,7 @@ class TalkDetailPresenter(
         launch(uiDispatcher) {
             try {
                 val talk = conferenceRepository.getTalk(talkId)
-                talk?.let { talkListView.displayTalk(it.toTalkDetail()) }
+                talk?.let { talkDetailView.displayTalk(it.toTalkDetail()) }
             } catch (e: Exception) {
                 view.displayError(e)
             }

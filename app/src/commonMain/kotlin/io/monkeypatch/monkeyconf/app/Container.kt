@@ -8,9 +8,11 @@ import kotlinx.coroutines.CoroutineDispatcher
 object Container {
     private val uiDispatcher: CoroutineDispatcher = CommonDispatcher.ui
 
-    private val conferenceRepository = ConferenceRepositoryImpl("https://monkeyconf.herokuapp.com/")
+    private val conferenceRepository =
+        ConferenceRepositoryImpl("https://monkeyconf.herokuapp.com/")
 
-    fun talkListPresenter(view: TalkListView) = TalkListPresenter(view, conferenceRepository, uiDispatcher)
+    fun talkListPresenter(view: TalkListView) =
+        TalkListPresenter(view, conferenceRepository, uiDispatcher)
 
     fun talkDetailPresenter(talkId: String, view: TalkDetailView) =
         TalkDetailPresenter(talkId, view, conferenceRepository, uiDispatcher)

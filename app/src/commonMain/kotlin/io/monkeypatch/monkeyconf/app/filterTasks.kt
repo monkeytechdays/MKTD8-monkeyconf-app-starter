@@ -5,4 +5,4 @@ private fun Talk.matches(query: String) =
             || speakers.any { it.fullName().toLowerCase().contains(query) }
             || description.toLowerCase().contains(query)
 
-fun List<Talk>.filterTalks(query: String) = filter {it.matches(query.toLowerCase()) }
+fun List<Talk>.filterTalks(query: String) = filter { it.matches(query.toLowerCase()) }
