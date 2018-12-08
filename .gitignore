@@ -1,3 +1,4 @@
 iosApp/DerivedData
 .gradle/
 .idea/
+build/
